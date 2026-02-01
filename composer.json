@@ -1,6 +1,6 @@
 {
     "name": "nyoncode/wire-mds",
-    "description": "",
+    "description": "Framework for automatic registration and management of components in Laravel and Livewire.",
     "authors": [
         {
             "name": "Ondřej Nyklíček",
