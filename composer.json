@@ -1,5 +1,5 @@
 {
-    "name": "nyoncode/{!-package_name-!}",
+    "name": "nyoncode/wire-mds",
     "description": "",
     "authors": [
         {
@@ -12,17 +12,21 @@
     "license": "MIT",
     "require": {
         "php": ">=8.2",
-        "nyoncode/laravel-package-toolkit": "^1.0"
+        "nyoncode/laravel-package-toolkit": "^1.2.1",
+	    "livewire/livewire": "^v3.0",
+	    "illuminate/console": "^10|^11|^12",
+	    "ext-simplexml": "*",
+	    "ext-dom": "*"
     },
     "autoload": {
         "psr-4": {
-            "NyonCode\\{!-package_namespace-!}\\": "src"
+            "NyonCode\\WireMds\\": "src"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "NyonCode\\{!-package_namespace-!}\\Providers\\SkeletonServiceProvider"
+                "NyonCode\\WireMds\\Providers\\WireMdsServiceProvider"
             ]
         }
     },
