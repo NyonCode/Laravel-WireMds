@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\File;
 
 /**
  * Cache the discovery manifest for production.
- * 
+ *
  * This command scans all components and generates a static PHP
  * manifest file, eliminating the need for runtime reflection.
  */
@@ -47,14 +47,14 @@ class DiscoveryCacheCommand extends Command
 
         if (!$cachePath) {
             $this->error('Discovery cache path not configured.');
-            return self::FAILURE;
+            return Command::FAILURE;
         }
 
         // Check if cache exists and force flag not set
         if (File::exists($cachePath) && !$this->option('force')) {
             if (!$this->confirm('Cache file already exists. Regenerate?', true)) {
                 $this->info('Cache generation cancelled.');
-                return self::SUCCESS;
+                return Command::SUCCESS;
             }
         }
 
@@ -90,18 +90,18 @@ class DiscoveryCacheCommand extends Command
         // Display summary table
         $this->displaySummary($manifest);
 
-        return self::SUCCESS;
+        return Command::SUCCESS;
     }
 
     /**
      * Generate the PHP manifest file content.
-     * 
+     *
      * @param array<string, array<string, mixed>> $manifest
      */
     protected function generateManifestFile(array $manifest): string
     {
         $exported = var_export($manifest, true);
-        
+
         // Clean up the export for better readability
         $exported = preg_replace('/array \(/', '[', $exported);
         $exported = preg_replace('/\)$/', ']', $exported);
@@ -109,6 +109,7 @@ class DiscoveryCacheCommand extends Command
         $exported = preg_replace('/\)(\s*)\]/', ']$1]', $exported);
 
         $date = now()->toIso8601String();
+        $count = count($manifest);
 
         return <<<PHP
 <?php
@@ -119,7 +120,7 @@ declare(strict_types=1);
  * Discovery Manifest - Auto-generated
  * 
  * Generated: {$date}
- * Components: {count($manifest)}
+ * Components: {$count}
  * 
  * DO NOT EDIT MANUALLY
  * Run `php artisan discovery:cache` to regenerate.
@@ -131,7 +132,7 @@ PHP;
 
     /**
      * Display manifest in table format.
-     * 
+     *
      * @param array<string, array<string, mixed>> $manifest
      */
     protected function displayManifest(array $manifest): void
@@ -144,7 +145,7 @@ PHP;
                 'uri' => $item['route']['full_uri'] ?? 'N/A',
                 'zone' => $item['route']['zone'] ?? 'N/A',
                 'access' => $item['access']['is_public'] ?? true ? 'Public' : 'Protected',
-                'nav' => isset($item['navigation']) && !($item['navigation']['hidden'] ?? false) 
+                'nav' => isset($item['navigation']) && !($item['navigation']['hidden'] ?? false)
                     ? 'Yes' : 'No',
             ];
         }
@@ -157,7 +158,7 @@ PHP;
 
     /**
      * Display summary statistics.
-     * 
+     *
      * @param array<string, array<string, mixed>> $manifest
      */
     protected function displaySummary(array $manifest): void
@@ -189,7 +190,7 @@ PHP;
 
         $this->newLine();
         $this->info('Summary:');
-        
+
         $this->table(
             ['Metric', 'Count'],
             [
@@ -203,7 +204,7 @@ PHP;
 
         $this->newLine();
         $this->info('By Zone:');
-        
+
         $zoneRows = array_map(
             fn($zone, $count) => [$zone, $count],
             array_keys($zones),

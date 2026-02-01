@@ -21,7 +21,6 @@ use NyonCode\WireMds\Services\NavigationBuilder;
 use NyonCode\WireMds\Services\RouteRegistrar;
 use NyonCode\WireMds\Services\SitemapGenerator;
 use Exception;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Blade;
 use NyonCode\LaravelPackageToolkit\Commands\InstallCommand;
 use NyonCode\LaravelPackageToolkit\Contracts\HasAbout;
@@ -58,7 +57,6 @@ class WireMdsServiceProvider extends PackageServiceProvider implements Packable,
                 SitemapGenerateCommand::class,
             ])
             ->hasAbout()
-            ->hasVersion('1.0.0')
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command
                     ->publishConfig()
@@ -219,8 +217,6 @@ class WireMdsServiceProvider extends PackageServiceProvider implements Packable,
      */
     protected function registerBladeComponents(): void
     {
-        Blade::componentNamespace('App\\Support\\Discovery\\View\\Components', 'discovery');
-
         // Anonymous components from views
         Blade::anonymousComponentPath(
             resource_path('views/vendor/discovery/components'),

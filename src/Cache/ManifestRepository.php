@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\File;
 
 /**
  * Repository for accessing the discovery manifest.
- * 
+ *
  * In production, this reads from the cached PHP manifest.
  * In development, it can use the engine directly.
  */
@@ -17,25 +17,26 @@ class ManifestRepository
 {
     /**
      * Loaded manifest data.
-     * 
+     *
      * @var array<string, array<string, mixed>>|null
      */
     protected ?array $manifest = null;
 
     /**
      * Indexed lookups.
-     * 
+     *
      * @var array<string, array<string, mixed>>
      */
     protected array $indexes = [];
 
     public function __construct(
+        protected string $cachePath,
         protected DiscoveryEngine $engine,
     ) {}
 
     /**
      * Get the full manifest.
-     * 
+     *
      * @return array<string, array<string, mixed>>
      */
     public function all(): array
@@ -45,7 +46,7 @@ class ManifestRepository
 
     /**
      * Get a single component by route name.
-     * 
+     *
      * @return array<string, mixed>|null
      */
     public function get(string $routeName): ?array
@@ -55,7 +56,7 @@ class ManifestRepository
 
     /**
      * Find component by full URI.
-     * 
+     *
      * @return array<string, mixed>|null
      */
     public function findByUri(string $uri): ?array
@@ -66,7 +67,7 @@ class ManifestRepository
 
     /**
      * Find component by class name.
-     * 
+     *
      * @return array<string, mixed>|null
      */
     public function findByClass(string $className): ?array
@@ -77,7 +78,7 @@ class ManifestRepository
 
     /**
      * Get all components in a specific zone.
-     * 
+     *
      * @return array<string, array<string, mixed>>
      */
     public function getByZone(string $zone): array
@@ -90,7 +91,7 @@ class ManifestRepository
 
     /**
      * Get all public routes (for sitemap).
-     * 
+     *
      * @return array<string, array<string, mixed>>
      */
     public function getPublicRoutes(): array
@@ -104,8 +105,8 @@ class ManifestRepository
                 $isPublic = $item['access']['is_public'] ?? true;
                 $sitemapEligible = $item['seo']['sitemap_eligible'] ?? true;
 
-                return $isPublic 
-                    && $sitemapEligible 
+                return $isPublic
+                    && $sitemapEligible
                     && !in_array($zone, $excludeZones);
             }
         );
@@ -113,21 +114,21 @@ class ManifestRepository
 
     /**
      * Get all navigation items.
-     * 
+     *
      * @return array<string, array<string, mixed>>
      */
     public function getNavigationItems(): array
     {
         return array_filter(
             $this->getManifest(),
-            fn($item) => isset($item['navigation']) 
+            fn($item) => isset($item['navigation'])
                 && !($item['navigation']['hidden'] ?? false)
         );
     }
 
     /**
      * Get navigation items for a specific zone.
-     * 
+     *
      * @return array<string, array<string, mixed>>
      */
     public function getNavigationForZone(string $zone): array
@@ -158,7 +159,7 @@ class ManifestRepository
 
     /**
      * Get the manifest (from cache or fresh).
-     * 
+     *
      * @return array<string, array<string, mixed>>
      */
     protected function getManifest(): array
@@ -186,13 +187,13 @@ class ManifestRepository
 
     /**
      * Load manifest from cache file.
-     * 
+     *
      * @return array<string, array<string, mixed>>
      */
     protected function loadFromCache(): array
     {
         $cachePath = config('discovery.cache.path');
-        
+
         if (!$cachePath || !File::exists($cachePath)) {
             return [];
         }
@@ -202,7 +203,7 @@ class ManifestRepository
 
     /**
      * Get or build an index.
-     * 
+     *
      * @return array<string, array<string, mixed>>
      */
     protected function getIndex(string $type): array

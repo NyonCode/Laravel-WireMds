@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Livewire\Admin\Users;
 
 use App\Models\User;
-use App\Support\Discovery\Attributes\Access;
-use App\Support\Discovery\Attributes\Navigation;
-use App\Support\Discovery\Attributes\Seo;
-use App\Support\Discovery\Attributes\WebRoute;
-use App\Support\Discovery\Contracts\Discoverable;
-use App\Support\Discovery\Traits\WithDiscoveryAccess;
+use NyonCode\WireMds\Attributes\Access;
+use NyonCode\WireMds\Attributes\Navigation;
+use NyonCode\WireMds\Attributes\Seo;
+use NyonCode\WireMds\Attributes\WebRoute;
+use NyonCode\WireMds\Contracts\Discoverable;
+use NyonCode\WireMds\Services\MetaRenderer;
+use NyonCode\WireMds\Traits\WithDiscoveryAccess;
 use Livewire\Component;
 
 /**
@@ -67,7 +68,7 @@ class UsersShow extends Component implements Discoverable
         $this->user = $user;
 
         // Set dynamic SEO values
-        app(\App\Support\Discovery\Services\MetaRenderer::class)->setMany([
+        app(MetaRenderer::class)->setMany([
             'title' => "User: {$user->name}",
             'description' => "View details for {$user->name}",
         ]);
