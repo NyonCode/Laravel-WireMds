@@ -1,6 +1,6 @@
-# Modular Discovery System (MDS) for Laravel 11
+# Modular Discovery System (MDS) for Laravel
 
-Enterprise-grade framework for automatic component registration and management in Laravel 11 and Livewire 3.
+Enterprise-grade framework for automatic component registration and management in Laravel and Livewire 3.
 
 > **Powered by [laravel-package-toolkit](https://github.com/NyonCode/laravel-package-toolkit)** - Uses modern package toolkit for streamlined package registration and management.
 
