@@ -22,37 +22,11 @@ Enterprise-grade framework for automatic component registration and management i
 ### Via Composer (as a package)
 
 ```bash
-composer require your-vendor/mds-framework
+composer require nyoncode/wire-mds
 ```
 
-### Manual Installation
 
-#### 1. Install dependencies
-
-```bash
-composer require nyoncode/laravel-package-toolkit spatie/laravel-permission
-```
-
-#### 2. Copy files
-
-```bash
-cp -r src/* app/Support/Discovery/
-cp config/discovery.php config/
-cp -r resources/views/vendor/discovery resources/views/vendor/
-```
-
-#### 3. Register Service Provider
-
-In `bootstrap/providers.php`:
-
-```php
-return [
-    // ...
-    App\Support\Discovery\DiscoveryServiceProvider::class,
-];
-```
-
-### 4. Publish configuration (optional)
+### Publish configuration (optional)
 
 ```bash
 # Use install command (recommended)
@@ -72,11 +46,11 @@ php artisan vendor:publish --tag=discovery::views
 
 namespace App\Livewire\Admin;
 
-use App\Support\Discovery\Attributes\Access;
-use App\Support\Discovery\Attributes\Navigation;
-use App\Support\Discovery\Attributes\Seo;
-use App\Support\Discovery\Attributes\WebRoute;
-use App\Support\Discovery\Traits\WithDiscoveryAccess;
+use NyonCode\WireMds\Attributes\Access;
+use NyonCode\WireMds\Attributes\Navigation;
+use NyonCode\WireMds\Attributes\Seo;
+use NyonCode\WireMds\Attributes\WebRoute;
+use NyonCode\WireMds\Traits\WithDiscoveryAccess;
 use Livewire\Component;
 
 #[WebRoute(
@@ -254,7 +228,7 @@ php artisan optimize:clear
 ### Dynamic settings in component
 
 ```php
-use App\Support\Discovery\Facades\Seo;
+use NyonCode\WireMds\Facades\Seo;
 
 public function mount(Product $product)
 {
@@ -292,7 +266,7 @@ php artisan discovery:sitemap --show
 
 ```php
 // In AppServiceProvider
-use App\Support\Discovery\Services\BreadcrumbService;
+use NyonCode\WireMds\Services\BreadcrumbService;
 
 public function boot()
 {
@@ -326,7 +300,7 @@ public function boot()
 ### Programmatically
 
 ```php
-use App\Support\Discovery\Services\NavigationBuilder;
+use NyonCode\WireMds\Services\NavigationBuilder;
 
 $navigation = app(NavigationBuilder::class)->forZone('admin');
 $flatNav = app(NavigationBuilder::class)->flatForZone('admin');
@@ -384,7 +358,7 @@ php artisan discovery:list --json
 Trait automatically verifies permissions in `mount()` method.
 
 ```php
-use App\Support\Discovery\Traits\WithDiscoveryAccess;
+use NyonCode\WireMds\Traits\WithDiscoveryAccess;
 
 class MyComponent extends Component
 {
@@ -399,7 +373,7 @@ class MyComponent extends Component
 For components that need to provide additional metadata:
 
 ```php
-use App\Support\Discovery\Contracts\Discoverable;
+use NyonCode\WireMds\Contracts\Discoverable;
 
 class MyComponent extends Component implements Discoverable
 {
@@ -418,7 +392,7 @@ class MyComponent extends Component implements Discoverable
 ### Discovery
 
 ```php
-use App\Support\Discovery\Facades\Discovery;
+use NyonCode\WireMds\Facades\Discovery;
 
 $all = Discovery::all();
 $component = Discovery::get('admin.dashboard');
@@ -430,7 +404,7 @@ $publicRoutes = Discovery::getPublicRoutes();
 ### Seo
 
 ```php
-use App\Support\Discovery\Facades\Seo;
+use NyonCode\WireMds\Facades\Seo;
 
 Seo::set('title', 'Custom Title');
 Seo::setMany(['title' => '...', 'description' => '...']);
