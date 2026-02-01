@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace NyonCode\WireMds;
 
-use App\Support\Discovery\Attributes\WebRoute;
-use App\Support\Discovery\Contracts\Discoverable;
-use App\Support\Discovery\Contracts\Processor;
+use NyonCode\WireMds\Attributes\WebRoute;
+use NyonCode\WireMds\Contracts\Discoverable;
+use NyonCode\WireMds\Contracts\Processor;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use ReflectionClass;
@@ -14,7 +14,7 @@ use Symfony\Component\Finder\Finder;
 
 /**
  * Discovery Engine - Pipeline-based component scanner.
- * 
+ *
  * Scans configured directories for Livewire components with discovery attributes,
  * processes them through a pipeline of processors, and generates a manifest.
  */
@@ -22,7 +22,7 @@ class DiscoveryEngine
 {
     /**
      * Registered processors sorted by priority.
-     * 
+     *
      * @var array<Processor>
      */
     protected array $processors = [];
@@ -34,7 +34,7 @@ class DiscoveryEngine
 
     /**
      * Discovery timing for debugging.
-     * 
+     *
      * @var array<string, float>
      */
     protected array $timing = [];
@@ -51,7 +51,7 @@ class DiscoveryEngine
 
     /**
      * Get all registered processors.
-     * 
+     *
      * @return array<Processor>
      */
     public function getProcessors(): array
@@ -62,7 +62,7 @@ class DiscoveryEngine
 
     /**
      * Discover all components and return manifest data.
-     * 
+     *
      * @return array<string, array<string, mixed>>
      */
     public function discover(): array
@@ -82,7 +82,7 @@ class DiscoveryEngine
 
             foreach ($classes as $className) {
                 $componentData = $this->processClass($className);
-                
+
                 if ($componentData !== null) {
                     $key = $componentData['route']['final_name'] ?? $className;
                     $manifest[$key] = $componentData;
@@ -97,7 +97,7 @@ class DiscoveryEngine
 
     /**
      * Find all class names in given path.
-     * 
+     *
      * @param array<string> $excludePatterns
      * @return array<string>
      */
@@ -118,7 +118,7 @@ class DiscoveryEngine
 
         foreach ($finder as $file) {
             $className = $this->getClassFromFile($file->getRealPath());
-            
+
             if ($className && class_exists($className)) {
                 $classes[] = $className;
             }
@@ -133,7 +133,7 @@ class DiscoveryEngine
     protected function getClassFromFile(string $filePath): ?string
     {
         $contents = File::get($filePath);
-        
+
         // Extract namespace
         $namespace = null;
         if (preg_match('/namespace\s+([^;]+);/', $contents, $matches)) {
@@ -151,7 +151,7 @@ class DiscoveryEngine
 
     /**
      * Process a single class through the pipeline.
-     * 
+     *
      * @return array<string, mixed>|null
      */
     protected function processClass(string $className): ?array
@@ -219,7 +219,7 @@ class DiscoveryEngine
 
     /**
      * Get timing information for debugging.
-     * 
+     *
      * @return array<string, float>
      */
     public function getTiming(): array

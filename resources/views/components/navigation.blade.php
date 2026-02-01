@@ -1,3 +1,4 @@
+@php use NyonCode\WireMds\Services\NavigationBuilder; @endphp
 {{-- Navigation Component --}}
 {{-- Usage: <x-discovery::navigation zone="admin" /> --}}
 
@@ -13,7 +14,7 @@
 ])
 
 @php
-    $navigation = app(\App\Support\Discovery\Services\NavigationBuilder::class)->forZone($zone);
+    $navigation = app(NavigationBuilder::class)->forZone($zone);
 @endphp
 
 <nav {{ $attributes->merge(['class' => $class]) }}>

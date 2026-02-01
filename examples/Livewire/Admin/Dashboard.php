@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin;
 
-use App\Support\Discovery\Attributes\Access;
-use App\Support\Discovery\Attributes\Navigation;
-use App\Support\Discovery\Attributes\Seo;
-use App\Support\Discovery\Attributes\WebRoute;
-use App\Support\Discovery\Traits\WithDiscoveryAccess;
+use NyonCode\WireMds\Attributes\Access;
+use NyonCode\WireMds\Attributes\Navigation;
+use NyonCode\WireMds\Attributes\Seo;
+use NyonCode\WireMds\Attributes\WebRoute;
+use NyonCode\WireMds\Traits\WithDiscoveryAccess;
 use Livewire\Component;
 
 /**

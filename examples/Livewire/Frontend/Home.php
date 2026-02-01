@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Livewire\Frontend;
 
-use App\Support\Discovery\Attributes\Navigation;
-use App\Support\Discovery\Attributes\Seo;
-use App\Support\Discovery\Attributes\WebRoute;
+use Illuminate\View\View;
+use NyonCode\WireMds\Attributes\Navigation;
+use NyonCode\WireMds\Attributes\Seo;
+use NyonCode\WireMds\Attributes\WebRoute;
 use Livewire\Component;
 
 /**
@@ -33,7 +34,7 @@ use Livewire\Component;
 )]
 class Home extends Component
 {
-    public function render()
+    public function render(): View
     {
         return view('livewire.frontend.home')
             ->layout('layouts.app');
