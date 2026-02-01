@@ -66,7 +66,7 @@ class WireMdsServiceProvider extends PackageServiceProvider implements Packable,
                         $cmd->call('discovery:cache');
                         $cmd->info('MDS installed successfully!');
                     })
-                    ->askToStarRepoOnGitHub('https://github.com/your-org/mds-framework');
+                    ->askToStarRepoOnGitHub('https://github.com/NyonCode/Laravel-WireMds');
             });
     }
 
